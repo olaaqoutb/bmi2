@@ -1,0 +1,99 @@
+<div class="container fade-in">
+  <div class="header">
+    <!-- Left: Neu button -->
+    <div class="left-section">
+      <button mat-raised-button class="neu-button" (click)="addProduct()">
+        <mat-icon>grid_on</mat-icon>
+        <!-- Grid icon with four squares -->
+
+        <!-- Changed from 'add' to 'create' -->
+        Neu
+      </button>
+    </div>
+
+    <!-- Center: Title -->
+    <div class="center-section">
+      <span class="title">Produkte</span>
+    </div>
+
+    <!-- Right: Checkbox and search -->
+    <div class="right-section">
+      <!-- Checkbox above search -->
+      <div class="checkbox-container">
+        <mat-checkbox
+          class="inkle-inactive"
+          color="primary"
+          [(ngModel)]="showTable"
+          (change)="onCheckboxChange()"
+        >
+
+       inkl. inaktive
+        </mat-checkbox>
+      </div>
+
+      <!-- Search field (only enabled when table is visible) -->
+   <mat-form-field appearance="outline">
+  <input matInput placeholder="Suche" [(ngModel)]="searchTerm" (input)="filterData()">
+  <!-- Always show search icon -->
+  <mat-icon matSuffix>search</mat-icon>
+  <!-- Show close button only when there's text -->
+  <button mat-icon-button matSuffix *ngIf="searchTerm" (click)="clearSearch()">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-form-field>
+    </div>
+  </div>
+</div>
+
+<div class="table-container">
+  <table
+    mat-table
+    [dataSource]="filteredProdukte"
+    class="mat-elevation-z8"
+    *ngIf="filteredProdukte.length"
+  >
+    <!-- Column definitions -->
+    <ng-container matColumnDef="kurzName">
+      <th mat-header-cell *matHeaderCellDef>Kurzname</th>
+      <td mat-cell *matCellDef="let element">{{ element.kurzName || "-" }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="produktname">
+      <th mat-header-cell *matHeaderCellDef>Produktname</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.produktname || "-" }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="start">
+      <th mat-header-cell *matHeaderCellDef>Start</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.start | date : "yyyy-MM-dd" }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="ende">
+      <th mat-header-cell *matHeaderCellDef>Ende</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.ende | date : "yyyy-MM-dd" }}
+      </td>
+    </ng-container>
+
+    <!-- <ng-container matColumnDef="aktiv">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let element">
+        <span class="status-icon" [ngClass]="element.aktiv ? 'active' : 'inactive'">
+          <mat-icon>{{ element.aktiv ? "check" : "close" }}</mat-icon>
+        </span>
+      </td>
+    </ng-container> -->
+
+    <!-- Single row definition with class binding -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      [class.inactive-row]="!row.aktiv"
+    ></tr>
+  </table>
+</div>
