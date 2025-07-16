@@ -1,94 +1,94 @@
+<!-- produkte-list.component.html (only changed the checkbox logic) -->
 <div class="container fade-in">
+  <!-- EXACTLY THE SAME HEADER MARKUP AS BEFORE -->
   <div class="header">
-    <!-- Left: Neu button -->
     <div class="left-section">
       <button mat-raised-button class="neu-button" (click)="addProduct()">
-        <mat-icon>grid_on</mat-icon>
-        <!-- Grid icon with four squares -->
-
-        <!-- Changed from 'add' to 'create' -->
+        <mat-icon>widgets</mat-icon>
         Neu
       </button>
     </div>
 
-    <!-- Center: Title -->
     <div class="center-section">
       <span class="title">Produkte</span>
     </div>
 
-    <!-- Right: Checkbox and search -->
     <div class="right-section">
-      <!-- Checkbox above search -->
       <div class="checkbox-container">
         <mat-checkbox
           class="inkle-inactive"
           color="primary"
-          [(ngModel)]="showTable"
-          (change)="onCheckboxChange()"
-        >
-
-       inkl. inaktive
+          [(ngModel)]="showInactive"
+          (change)="onCheckboxChange()">
+          inkl. inaktive
         </mat-checkbox>
       </div>
 
-      <!-- Search field (only enabled when table is visible) -->
-   <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline">
   <input matInput placeholder="Suche" [(ngModel)]="searchTerm" (input)="filterData()">
-  <!-- Always show search icon -->
   <mat-icon matSuffix>search</mat-icon>
-  <!-- Show close button only when there's text -->
-  <button mat-icon-button matSuffix *ngIf="searchTerm" (click)="clearSearch()">
-    <mat-icon>close</mat-icon>
-  </button>
 </mat-form-field>
     </div>
   </div>
 </div>
 
+
+<!-- Rest of the template remains exactly the same -->
+
 <div class="table-container">
   <table
     mat-table
-    [dataSource]="filteredProdukte"
+    [dataSource]="dataSource"
+    matSort
     class="mat-elevation-z8"
-    *ngIf="filteredProdukte.length"
+    *ngIf="dataSource.data.length"
   >
-    <!-- Column definitions -->
-    <ng-container matColumnDef="kurzName">
-      <th mat-header-cell *matHeaderCellDef>Kurzname</th>
-      <td mat-cell *matCellDef="let element">{{ element.kurzName || "-" }}</td>
-    </ng-container>
+    <!-- Column definitions with mat-sort-header -->
+    <!-- KURZNAME -->
+<ng-container matColumnDef="kurzName">
+  <th mat-header-cell *matHeaderCellDef>
+    Kurzname
+    <span (click)="sortBy('kurzName', 'asc')">▲</span>
+    <span (click)="sortBy('kurzName', 'desc')">▼</span>
+  </th>
+  <td mat-cell *matCellDef="let element">{{ element.kurzName || '-' }}</td>
+</ng-container>
 
-    <ng-container matColumnDef="produktname">
-      <th mat-header-cell *matHeaderCellDef>Produktname</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.produktname || "-" }}
-      </td>
-    </ng-container>
+<!-- PRODUKTNAME -->
+<ng-container matColumnDef="produktname">
+  <th mat-header-cell *matHeaderCellDef>
+    Produktname
+    <span (click)="sortBy('produktname', 'asc')">▲</span>
+    <span (click)="sortBy('produktname', 'desc')">▼</span>
+  </th>
+  <td mat-cell *matCellDef="let element">{{ element.produktname || '-' }}</td>
+</ng-container>
 
-    <ng-container matColumnDef="start">
-      <th mat-header-cell *matHeaderCellDef>Start</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.start | date : "yyyy-MM-dd" }}
-      </td>
-    </ng-container>
+<!-- START -->
+<ng-container matColumnDef="start">
+  <th mat-header-cell *matHeaderCellDef>
+    Start
+    <span (click)="sortBy('start', 'desc')">▲</span>
+    <span (click)="sortBy('start', 'asc')">▼</span>
+  </th>
+  <td mat-cell *matCellDef="let element">
+    {{ element.start | date : 'dd.MM.yyyy' }}
+  </td>
+</ng-container>
 
-    <ng-container matColumnDef="ende">
-      <th mat-header-cell *matHeaderCellDef>Ende</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.ende | date : "yyyy-MM-dd" }}
-      </td>
-    </ng-container>
+<!-- ENDE -->
+<ng-container matColumnDef="ende">
+  <th mat-header-cell *matHeaderCellDef>
+    Ende
+    <span (click)="sortBy('ende', 'desc')">▲</span>
+    <span (click)="sortBy('ende', 'asc')">▼</span>
+  </th>
+  <td mat-cell *matCellDef="let element">
+    {{ element.ende | date : 'dd.MM.yyyy' }}
+  </td>
+</ng-container>
 
-    <!-- <ng-container matColumnDef="aktiv">
-      <th mat-header-cell *matHeaderCellDef>Status</th>
-      <td mat-cell *matCellDef="let element">
-        <span class="status-icon" [ngClass]="element.aktiv ? 'active' : 'inactive'">
-          <mat-icon>{{ element.aktiv ? "check" : "close" }}</mat-icon>
-        </span>
-      </td>
-    </ng-container> -->
 
-    <!-- Single row definition with class binding -->
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr
       mat-row

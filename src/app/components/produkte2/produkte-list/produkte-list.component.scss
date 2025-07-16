@@ -6,108 +6,213 @@
   @include mat.table-overrides((
     header-headline-color: white,
   ));
-
 }
 
+// Breakpoints
+$phone: 600px;
+$tablet: 900px;
+
+/* ====== Container & Header ====== */
 .container {
   animation: fadeIn 0.4s ease-in;
 }
 
-//header sec////
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;//1
-  padding: 7px;//2
-   position: relative;//3
-  background-color: #338E9c;
+  background-color: #338e9c;
+  padding: 5px 20px;
   color: white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #0c4450;
 
-  .left-section, .center-section, .right-section {
-    display: flex;
-    align-items: center;
-    gap: 12px;//4
+  @media (max-width: $tablet) {
+    padding: 10px;
   }
 
-  .center-section {
-    flex: 1;
+  @media (max-width: $phone) {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+/* ====== Header Sections ====== */
+.left-section, .center-section, .right-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.center-section {
+  flex: 1;
+  justify-content: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+  @media (max-width: $tablet) {
+    position: static;
+    transform: none;
     justify-content: center;
-    position: absolute;//5
-    left: 50%;//6
-    transform: translateX(-50%);//7
-    .title {
-      font-size: 24px;
-      font-weight: bold;
-       color: white;//8
-    }
+    order: -1;
+    width: 100%;
+    margin-bottom: 10px;
   }
 
-  .neu-button {
-     background-color: rgb(56, 55, 103)!important;
+  .title {
+    font-size: 1.5rem;
+    font-weight: bold;
     color: white;
-    border-radius: 3px;//9
+    margin: 0;
+  }
+}
+
+/* ====== Button ====== */
+.neu-button {
+  background: linear-gradient(to right, #2c3e50, #34495e) !important;
+  transition: all 0.25s ease !important;
+  border-radius: 4px !important;
+  height: 40px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white !important;
+
+  &:hover {
+    background: linear-gradient(to right, #3e5870, #4a5d78) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   }
 
-  .right-section {
-    display: flex;
-  flex-direction: row;
-  gap: 8px;
+  @media (max-width: $phone) {
+    width: 100%;
+  }
+}
 
-.checkbox-container {
+/* ====== Right Section ====== */
+.right-section {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+
+  @media (max-width: $tablet) {
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: $phone) {
+    width: 100%;
+    flex-direction: column;
+  }
+/* More comprehensive placeholder fix */
+.right-section mat-form-field {
+  /* For newer Angular Material versions */
+  .mdc-text-field__input::placeholder {
+    color: rgba(0, 0, 0, 0.6) !important;
+    opacity: 1 !important;
+  }
+
+  /* For older Angular Material versions */
+  .mat-input-element::placeholder {
+    color: rgba(0, 0, 0, 0.6) !important;
+    opacity: 1 !important;
+  }
+
+  /* Fallback for all cases */
+  input::placeholder {
+    color: rgba(0, 0, 0, 0.6) !important;
+    opacity: 1 !important;
+  }
+}
+  .checkbox-container {
     display: flex;
     justify-content: flex-end;
     cursor: pointer;
-    .inkle-inactive {
-      color: white;
+
+    @media (max-width: $phone) {
+      width: 100%;
+      order: -1;
+      margin-bottom: 8px;
+      padding: 8px 0;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      justify-content: flex-start;
+    }
+
+    mat-checkbox {
+      color: white !important;
+
+      ::ng-deep {
+        .mdc-checkbox__background {
+          border-color: white !important;
+        }
+        .mdc-label {
+          color: white !important;
+          font-size: 14px;
+          white-space: nowrap;
+        }
+      }
     }
   }
-    mat-form-field {
-      width: 260px;
-      background-color: white;
-      border-radius: 4px;
-      padding-right: 4px;
+
+  mat-form-field {
+    width: 260px;
+    background-color: white;
+    border-radius: 4px;
+    padding: 0 8px 0 16px;
+    height: 32px;
+    width: 200px;
+    @media (max-width: $tablet) {
+      width: 200px;
     }
- input {
-      color: black;
+
+    @media (max-width: $phone) {
+      width: 100% !important;
+      margin-top: 8px;
+    }
+
+    .mat-mdc-input-element {
+      color: #333;
+      font-size: 14px;
+      padding: 8px 0;
+      cursor: pointer;
+
+      // &::placeholder {
+      //   color: transparent;
+      // }
+      // &:not(:placeholder-shown) {
+      //   color: #333;
+      // }
     }
 
     mat-icon {
-      color: gray;
+       color: gray;
+          font-size: 18px;
+          width: 18px;
+          height: 18px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
     }
-  mat-checkbox {
-    color: white;
   }
 }
 
-}
-
-.fade-in {
-  animation: fadeIn 0.5s ease-in;
-}
-
-.mat-mdc-table{
-
-  height: 1000px;
-}
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* ====== Table Container ====== */
 .table-container {
   height: 500px;
   overflow: auto;
 
+  @media (max-width: $phone) {
+    height: auto;
+    overflow: visible;
+  }
+
   .mat-table {
     display: block;
     width: 100%;
+
+    @media (max-width: $phone) {
+      display: none;
+    }
   }
 
   .mat-header-row {
@@ -118,367 +223,126 @@
   }
 }
 
-
+/* ====== Table Styling (Maintained from Produkte) ====== */
 .mat-mdc-header-cell {
-  background-color: rgb(220, 217, 217) !important;
+  cursor: pointer !important;
+  background-color: #D4DCE0 !important;
   font-weight: bold !important;
   color: black !important;
   border-bottom: 2px solid rgb(193, 188, 188) !important;
   border-top: 2px solid rgb(193, 188, 188) !important;
   box-shadow: 0 40px 100px rgba(10, 10, 10, 10.2) !important;
+
+  @media (max-width: $phone) {
+    padding: 8px !important;
+    font-size: 12px !important;
+  }
 }
 
 .mat-mdc-row:not(:nth-child(2n + 1)) {
-  background-color: #F2F2F2;
+  background-color:#F8F9FA;
 }
-/* Inactive row styling */
+
 .mat-mdc-row.inactive-row {
   color: #D32F2F !important;
-
 }
-.mat-mdc-row{
+
+.mat-mdc-row {
   height: 40px;
-}
-
-
-
-
-// .right-section {
-//   display: flex;
-//   flex-direction: row;
-//   gap: 8px;
-
-//   .checkbox-container {
-//     display: flex;
-//     justify-content: flex-end;
-//     cursor: pointer;
-//     .inkle-inactive {
-//       color: white;
-//     }
-//   }
-
-// }
-
-
-.right-section {
-  mat-form-field {
-    width: 260px;
-    background-color: white;
-    border-radius: 4px;
-
-    // Remove the search icon
-    .mat-icon[matSuffix]:first-child {
-      display: none;
-    }
-
-    // Style the input text
-    .mat-mdc-input-element {
-      color: #333;
-      font-size: 14px;
-      padding: 8px 0;
-      // Make sure text is visible when typing
-      &::placeholder {
-        color: transparent;
-      }
-      &:not(:placeholder-shown) {
-        color: #333; // Visible text color when typing
-      }
-    }
-
-    // Style the close (X) button
-    .mat-mdc-icon-button[matSuffix] {
-      position: absolute;
-      right: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #666;
-
-      &:hover {
-        color: #333;
-      }
-
-      .mat-icon {
-        font-size: 180px;
-      }
-    }
-
-    // Adjust padding to prevent text under X button
-    .mat-mdc-form-field-infix {
-      padding-right: 24px; // Make space for X button
-    }
-  }
-}
-.right-section {
-  mat-form-field.disabled {
-    opacity: 0.6;
-    pointer-events: none;
-  }
-}
-
-
-
-
-.right-section {
-  mat-form-field {
-    // Make sure icons have proper spacing
-    .mat-mdc-form-field-icon-suffix {
-      padding: 0 8px;
-      display: flex;
-      align-items: center;
-    }
-
-    // Style for disabled state
-    &.disabled {
-      opacity: 0.6;
-      pointer-events: none;
-    }
-
-    // Input styling
-    .mat-mdc-input-element {
-      padding-right: 8px; // Add some padding to prevent text under icon
-    }
-  }
-}
-.right-section {
-  mat-form-field {
-    // Ensure proper icon spacing
-    .mat-mdc-form-field-icon-suffix {
-      padding: 0;
-      display: flex;
-      align-items: center;
-    }
-
-    // Input padding to prevent text under icon
-    .mat-mdc-input-element {
-      padding-right: 8px;
-    }
-
-    // Icon colors
-    mat-icon {
-      color: rgba(0, 0, 0, 0.6);
-      font-size: 20px;
-      width: 20px;
-      height: 20px;
-    }
-
-    // Disabled state
-    &.disabled {
-      opacity: 0.6;
-      pointer-events: none;
-    }
-  }
-}
-
-.mat-mdc-row:hover{
-  background-color: #E9EAEC;
-}
-// Breakpoints
-$phone: 600px;
-$tablet: 900px;
-
-.container {
-  animation: fadeIn 0.4s ease-in;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  padding: 7px;
-  position: relative;
-  background-color: #338E9c;
-  color: white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-
-  @media (max-width: $phone) {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 10px;
-  }
-
-  .left-section, .center-section, .right-section {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-
-    @media (max-width: $phone) {
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-  }
-
-  .center-section {
-    flex: 1;
-    justify-content: center;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-
-    @media (max-width: $tablet) {
-      position: static;
-      transform: none;
-      justify-content: flex-start;
-      order: -1;
-      width: 100%;
-      margin-bottom: 10px;
-    }
-
-    .title {
-      font-size: 24px;
-      font-weight: bold;
-      color: white;
-
-      @media (max-width: $phone) {
-        font-size: 20px;
-        text-align: center;
-      }
-    }
-  }
-
-  .neu-button {
-    background-color: rgb(56, 55, 103) !important;
-    color: white;
-    border-radius: 3px;
-
-    @media (max-width: $phone) {
-      .button-text {
-        display: none;
-      }
-    }
-  }
-
-  .right-section {
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-
-    @media (max-width: $tablet) {
-      flex-wrap: wrap;
-    }
-
-    @media (max-width: $phone) {
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .checkbox-container {
-      display: flex;
-      justify-content: flex-end;
-      cursor: pointer;
-
-      @media (max-width: $phone) {
-        justify-content: center;
-      }
-
-      .inkle-inactive {
-        color: white;
-
-        .checkbox-label {
-          @media (max-width: $phone) {
-            font-size: 14px;
-          }
-        }
-      }
-    }
-
-    mat-form-field {
-      width: 260px;
-      background-color: white;
-      border-radius: 4px;
-      padding-right: 4px;
-
-      @media (max-width: $tablet) {
-        width: 200px;
-      }
-
-      @media (max-width: $phone) {
-        width: 100%;
-      }
-    }
-  }
-}
-
-// Table styles
-.table-container {
-  height: 500px;
-  overflow: auto;
 
   @media (max-width: $phone) {
     height: auto;
-    overflow: visible;
   }
 
-  .desktop-table {
-    width: 100%;
-
-    @media (max-width: $phone) {
-      display: none;
-    }
-  }
-
-  .mobile-list {
-    display: none;
-
-    @media (max-width: $phone) {
-      display: block;
-      padding: 8px;
-    }
-
-    .mobile-card {
-      margin-bottom: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-
-      .mobile-row {
-        display: flex;
-        padding: 4px 0;
-        border-bottom: 1px solid #eee;
-
-        &:last-child {
-          border-bottom: none;
-        }
-
-        .mobile-label {
-          font-weight: bold;
-          min-width: 100px;
-          color: #338E9c;
-        }
-
-        .mobile-value {
-          flex: 1;
-        }
-      }
-    }
-  }
-}
-
-// Table cell styles
-.mat-mdc-header-cell {
-  @media (max-width: $tablet) {
-    font-size: 12px !important;
-    padding: 0 8px !important;
+  &:hover {
+    background-color: #E9EAEC !important;
   }
 }
 
 .mat-mdc-cell {
-  @media (max-width: $tablet) {
+  @media (max-width: $phone) {
+    padding: 8px !important;
     font-size: 12px !important;
-    padding: 0 8px !important;
   }
 }
 
-// Hide some columns on tablet
-@media (max-width: $tablet) {
-  .mat-column-ende {
-    display: none;
-  }
-}
+/* ====== Mobile Table Alternative ====== */
+.mobile-table {
+  display: none;
 
-// Make sure icons are visible
-.right-section {
-  mat-form-field {
-    .mat-icon[matSuffix] {
-      display: inline-flex !important;
+  @media (max-width: $phone) {
+    display: block;
+  }
+
+  .mobile-row {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+
+    div {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      span:first-child {
+        font-weight: bold;
+        color: #338E9c;
+      }
     }
+  }
+}
+
+/* ====== Animations ====== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+.mat-sort-header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .mat-sort-header-arrow {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+.mat-header-cell {
+  font-weight: bold;
+}
+/* ====== Placeholder Fix ====== */
+.right-section mat-form-field {
+  /* For Material input */
+  .mdc-text-field__input::placeholder {
+    color: rgba(0, 0, 0, 0.6) !important;
+    opacity: 1 !important;
+  }
+
+  /* Fallback for all inputs */
+  input::placeholder {
+    color: rgba(0, 0, 0, 0.6) !important;
+    opacity: 1 !important;
+  }
+
+  /* Remove any existing transparent placeholder styles */
+  .mat-mdc-input-element::placeholder {
+    color: rgba(0, 0, 0, 0.6) !important;
+    opacity: 1 !important;
   }
 }
